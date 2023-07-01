@@ -61,4 +61,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("ws message");
   });
+
+  window.addEventListener("unload", () => {
+    ws.send({
+      nickname: formWidget.you,
+      status: false,
+    });
+  });
 });

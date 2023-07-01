@@ -4,6 +4,7 @@ export default class InnFormWidget {
     this.#element = element;
     this.ws = null;
     this.nicknames = null;
+    this.you = null;
   }
 
   static get murkup() {
@@ -49,6 +50,7 @@ export default class InnFormWidget {
       if (nickname && this.nicknames.includes(nickname) === false) {
         this.ws.send(nickname);
         this.formVision();
+        this.you = nickname;
       } else {
         this.validate.classList.remove("unvisible");
       }
