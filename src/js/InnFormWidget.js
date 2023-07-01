@@ -2,6 +2,8 @@ export default class InnFormWidget {
   #element;
   constructor(element) {
     this.#element = element;
+    this.ws = null;
+    this.nicknames = null;
   }
 
   static get murkup() {
@@ -32,15 +34,24 @@ export default class InnFormWidget {
     this.input.addEventListener("focus", this.onFocus);
   }
 
-  #validNickname(value) {}
+  #validNickname(value) {
+    const result = /^([A-Z]).+(\d)$/gm.test(value);
+    return result && value;
+  }
 
   onClick = (e) => {
+    e.preventDefault();
     const target = e.target;
     if (target == this.button) {
-      const nickname = this.#validNickname(this.input.value);
-      nickname
-        ? Nickname.add(nickname)
-        : this.validate.classList.remove("unvisible");
+      const nickname = this.#validNickname(this.input.value).trim();
+      if (nickname && this.nicknames.includes(nickname) === true)
+        alert("nickname taken! Choose another!");
+      if (nickname && this.nicknames.includes(nickname) === false) {
+        this.ws.send(nickname);
+        this.formVision();
+      } else {
+        this.validate.classList.remove("unvisible");
+      }
     }
     this.input.value = "";
   };
