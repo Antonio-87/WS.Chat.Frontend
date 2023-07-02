@@ -48,7 +48,7 @@ export default class InnFormWidget {
       if (nickname && this.nicknames.includes(nickname) === true)
         alert("nickname taken! Choose another!");
       if (nickname && this.nicknames.includes(nickname) === false) {
-        this.ws.send(nickname);
+        this.ws.send(JSON.stringify({ nickname: nickname }));
         this.formVision();
         this.you = nickname;
       } else {
