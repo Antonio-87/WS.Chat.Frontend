@@ -49,6 +49,116 @@ form {
     white-space: pre-line;
 }
 
+.chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    transform: translate(38%, 6%);
+    min-width: 65%;
+    max-width: 65%;
+    min-height: 500px;
+    max-height: 500px;
+    padding: 20px 35px;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+ul {
+    list-style: none;
+}
+
+.owners-list {
+    position: absolute;
+    top: 40px;
+    left: 2.4%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    padding: 25px;
+    width: 20.5%;
+    max-height: 435px;
+    border: 1px solid black;
+    border-right: none;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    overflow-y: auto;
+}
+
+.owner {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: start;
+    align-items: center;
+}
+
+.owner:nth-child(n+2) {
+    margin-top: 10px;
+    /* margin-bottom: 10px; */
+}
+
+.check {
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.messages {
+    height: 422px;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.message {
+    width: 60%;
+    height: auto;
+}
+
+.message:nth-child(n+2) {
+    margin-top: 35px;
+}
+
+p {
+    margin: 0;
+}
+
+.owner-message {
+    font-size: 16px;
+}
+
+.message-text {
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.input-message {
+    font-family:'Arial', sans-serif;
+    font-size: 16px;
+    width: 97.5%;
+    min-height: 25px;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid black;
+    border-radius: 15px;
+    resize: none;
+    overflow-y: auto;
+}
+
 .unvisible {
     display: none;
+}
+
+.you {
+    color:red;
+}
+
+.you-owner {
+    margin-left: auto;
+    text-align: end;
 }
