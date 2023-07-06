@@ -31,32 +31,32 @@ export default class InnFormWidget {
     this.button = document.querySelector(".button");
     this.validate = document.querySelector(".validate");
 
-    this.form.addEventListener("click", this.onClick);
+    // this.form.addEventListener("click", this.onClick);
     this.input.addEventListener("focus", this.onFocus);
   }
 
-  #validNickname(value) {
+  validNickname(value) {
     const result = /^([A-Z]).+(\d)$/gm.test(value);
     return result && value;
   }
 
-  onClick = (e) => {
-    e.preventDefault();
-    const target = e.target;
-    if (target == this.button) {
-      const nickname = this.#validNickname(this.input.value).trim();
-      if (nickname && this.nicknames.includes(nickname) === true)
-        alert("nickname taken! Choose another!");
-      if (nickname && this.nicknames.includes(nickname) === false) {
-        this.ws.send(JSON.stringify({ nickname: nickname }));
-        this.formVision();
-        this.you = nickname;
-      } else {
-        this.validate.classList.remove("unvisible");
-      }
-    }
-    this.input.value = "";
-  };
+  // onClick = (e) => {
+  //   e.preventDefault();
+  //   const target = e.target;
+  //   if (target == this.button) {
+  //     const nickname = this.#validNickname(this.input.value).trim();
+  //     if (nickname && this.nicknames.includes(nickname) === true)
+  //       alert("nickname taken! Choose another!");
+  //     if (nickname && this.nicknames.includes(nickname) === false) {
+  //       this.ws.send(JSON.stringify({ nickname: nickname }));
+  //       this.formVision();
+  //       this.you = nickname;
+  //     } else {
+  //       this.validate.classList.remove("unvisible");
+  //     }
+  //   }
+  //   this.input.value = "";
+  // };
 
   onFocus = () => {
     this.validate.classList.add("unvisible");

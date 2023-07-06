@@ -1,15 +1,21 @@
 import InnFormWidget from "./InnFormWidget";
+import InnChat from "./InnChat";
 
 export default class Controller {
   #element;
   #innFormWidget;
   #ws;
+  #innChat;
   constructor(element) {
     this.#element = element;
     this.#innFormWidget = new InnFormWidget(this.#element);
     this.#innFormWidget.bindToDom();
     this.#ws = new WebSocket("ws://localhost:7070/ws");
     this.#innFormWidget.ws = this.#ws;
+    this.#innChat = new InnChat(this.#element);
+    this.#innChat.bindToDom();
+    this.#innChat.innOwners();
+    this.#innChat.addYou(this.#innFormWidget.you);
   }
 
   connectHandler() {
@@ -39,6 +45,7 @@ export default class Controller {
       if (data.nicknames) {
         const { nicknames } = data;
         this.#innFormWidget.nicknames = nicknames;
+        this.#innChat.owners = nicknames;
       }
 
       if (data.chat) {
@@ -51,6 +58,8 @@ export default class Controller {
 
       console.log("ws message");
     });
+
+    this.#innFormWidget.form.addEventListener("click", this.onClick);
   }
 
   onUnload = () => {
@@ -60,5 +69,29 @@ export default class Controller {
         status: false,
       })
     );
+  };
+
+  onClick = (e) => {
+    e.preventDefault();
+    const target = e.target;
+    if (target == this.#innFormWidget.button) {
+      const nickname = this.#innFormWidget
+        .validNickname(this.#innFormWidget.input.value)
+        .trim();
+      if (nickname && this.#innFormWidget.nicknames.includes(nickname) === true)
+        alert("nickname taken! Choose another!");
+      if (
+        nickname &&
+        this.#innFormWidget.nicknames.includes(nickname) === false
+      ) {
+        this.#ws.send(JSON.stringify({ nickname: nickname }));
+        this.#innFormWidget.formVision();
+        this.#innChat.chatVision();
+        this.#innFormWidget.you = nickname;
+      } else {
+        this.#innFormWidget.validate.classList.remove("unvisible");
+      }
+    }
+    this.#innFormWidget.input.value = "";
   };
 }

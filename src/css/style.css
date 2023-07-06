@@ -23,6 +23,7 @@ form {
 
 .title {
     margin-top: 0;
+    margin-bottom: 15px;
 }
 
 .input-nickname {
@@ -45,6 +46,7 @@ form {
 .validate {
     font-size: 12px;
     width: 100%;
+    margin-bottom: 15px;
     color: red;
     white-space: pre-line;
 }
