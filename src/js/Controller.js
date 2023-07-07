@@ -14,8 +14,6 @@ export default class Controller {
     this.#innFormWidget.ws = this.#ws;
     this.#innChat = new InnChat(this.#element);
     this.#innChat.bindToDom();
-    this.#innChat.innOwners();
-    this.#innChat.addYou(this.#innFormWidget.you);
   }
 
   connectHandler() {
@@ -46,6 +44,8 @@ export default class Controller {
         const { nicknames } = data;
         this.#innFormWidget.nicknames = nicknames;
         this.#innChat.owners = nicknames;
+        this.#innChat.innOwners();
+        this.#innChat.addYou(this.#innFormWidget.you);
       }
 
       if (data.chat) {
@@ -59,7 +59,8 @@ export default class Controller {
       console.log("ws message");
     });
 
-    this.#innFormWidget.form.addEventListener("click", this.onClick);
+    this.#innFormWidget.form.addEventListener("click", this.onClickForm);
+    this.#innChat.input.addEventListener("submit", this.onSubmitChat);
   }
 
   onUnload = () => {
@@ -71,7 +72,7 @@ export default class Controller {
     );
   };
 
-  onClick = (e) => {
+  onClickForm = (e) => {
     e.preventDefault();
     const target = e.target;
     if (target == this.#innFormWidget.button) {
@@ -93,5 +94,11 @@ export default class Controller {
       }
     }
     this.#innFormWidget.input.value = "";
+  };
+
+  onSubmitChat = (e) => {
+    e.preventDefault();
+    const target = e.target;
+    if (target.value === "") return;
   };
 }

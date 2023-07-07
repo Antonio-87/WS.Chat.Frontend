@@ -3,7 +3,7 @@ export default class InnChat {
   #owners;
   #ownersList;
   #chat;
-  #input;
+  #messages;
   constructor(element) {
     this.#element = element;
     this.owners = null;
@@ -33,7 +33,8 @@ export default class InnChat {
     this.#owners = document.querySelector(".owners");
     this.#ownersList = document.querySelector(".owners-list");
     this.#chat = document.querySelector(".chat");
-    this.#input = document.querySelector("input-message");
+    this.#messages = document.querySelector(".messages");
+    this.input = document.querySelector("input-message");
   }
 
   chatVision() {
@@ -41,11 +42,12 @@ export default class InnChat {
     this.#chat.classList.toggle("unvisible");
   }
 
-  innOwnersHtml() {
+  #innOwnersHtml() {
     const ownersHtml = [];
+    if (!this.owners) return;
     this.owners.forEach((owner) => {
       const html = `
-        <li class="owner"><div class="check"></div>${owner}</li>
+        <li class="owner"><div class="check"></div><span>${owner}</span></li>
       `;
       ownersHtml.push(html);
     });
@@ -53,7 +55,9 @@ export default class InnChat {
   }
 
   innOwners() {
-    this.#ownersList.insertAdjacentHTML("afterbegin", this.innOwnersHtml);
+    this.removeOwners();
+    const htmlOwners = this.#innOwnersHtml();
+    this.#ownersList.insertAdjacentHTML("afterbegin", htmlOwners);
   }
 
   removeOwners() {
@@ -66,7 +70,10 @@ export default class InnChat {
     if (this.owners) {
       [...this.#ownersList.querySelectorAll(".owner")]
         .filter((owner) => owner.textContent === nicknameYou)
-        .forEach((owner) => owner.classList.add("you"));
+        .forEach((owner) => {
+          owner.classList.add("you");
+          owner.querySelector("span").textContent = "You";
+        });
     }
   }
 }
