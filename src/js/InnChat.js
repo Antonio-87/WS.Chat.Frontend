@@ -7,6 +7,8 @@ export default class InnChat {
   constructor(element) {
     this.#element = element;
     this.owners = null;
+    this.messages = null;
+    this.you = null;
   }
 
   static get markup() {
@@ -17,10 +19,6 @@ export default class InnChat {
       </aside>
       <div class="chat unvisible">
           <ul class="messages">
-              <li class="message you-owner">
-                  <p class="owner-message you">You, <span class="time">16:08 03.07.2023</span></p><br>
-                  <p class="message-text">Thenks for this chat! It is very important for me!</p>
-              </li>
           </ul>
           <textarea class="input-message" placeholder="Type to message here"></textarea>
       </div>
@@ -34,7 +32,7 @@ export default class InnChat {
     this.#ownersList = document.querySelector(".owners-list");
     this.#chat = document.querySelector(".chat");
     this.#messages = document.querySelector(".messages");
-    this.input = document.querySelector("input-message");
+    this.input = document.querySelector(".input-message");
   }
 
   chatVision() {
@@ -46,8 +44,10 @@ export default class InnChat {
     const ownersHtml = [];
     if (!this.owners) return;
     this.owners.forEach((owner) => {
+      const classOwner = owner === this.you ? "owner you" : "owner";
+      const textOwner = owner === this.you ? "You" : owner;
       const html = `
-        <li class="owner"><div class="check"></div><span>${owner}</span></li>
+        <li class="${classOwner}"><div class="check"></div><span>${textOwner}</span></li>
       `;
       ownersHtml.push(html);
     });
@@ -55,25 +55,47 @@ export default class InnChat {
   }
 
   innOwners() {
-    this.removeOwners();
+    this.#removeOwners();
     const htmlOwners = this.#innOwnersHtml();
     this.#ownersList.insertAdjacentHTML("afterbegin", htmlOwners);
   }
 
-  removeOwners() {
+  #removeOwners() {
     [...this.#ownersList.querySelectorAll(".owner")].forEach((owner) => {
       owner.remove();
     });
   }
 
-  addYou(nicknameYou) {
-    if (this.owners) {
-      [...this.#ownersList.querySelectorAll(".owner")]
-        .filter((owner) => owner.textContent === nicknameYou)
-        .forEach((owner) => {
-          owner.classList.add("you");
-          owner.querySelector("span").textContent = "You";
-        });
-    }
+  #innMessagesHtml() {
+    const ownersHtml = [];
+    if (!this.messages) return;
+    this.messages.forEach((message) => {
+      const classOwnerLi =
+        message.nickname === this.you ? "message you-owner" : "message";
+      const classOwnerP =
+        message.nickname === this.you ? "owner-message you" : "owner-message";
+      const textOwner =
+        message.nickname === this.you ? "You" : message.nickname;
+      const html = `
+        <li class="${classOwnerLi}">
+          <p class="${classOwnerP}">${textOwner}, <span class="time">${message.time}</span></p><br>
+          <p class="message-text">${message.message}</p>
+        </li>
+      `;
+      ownersHtml.push(html);
+    });
+    return ownersHtml.join("");
+  }
+
+  innMessages() {
+    this.#removeMessages();
+    const messagesHtml = this.#innMessagesHtml();
+    this.#messages.insertAdjacentHTML("afterbegin", messagesHtml);
+  }
+
+  #removeMessages() {
+    [...this.#messages.querySelectorAll(".message")].forEach((message) => {
+      message.remove();
+    });
   }
 }

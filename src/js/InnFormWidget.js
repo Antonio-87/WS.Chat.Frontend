@@ -3,8 +3,6 @@ export default class InnFormWidget {
   constructor(element) {
     this.#element = element;
     this.ws = null;
-    this.nicknames = null;
-    this.you = null;
   }
 
   static get murkup() {
