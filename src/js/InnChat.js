@@ -76,10 +76,11 @@ export default class InnChat {
         message.nickname === this.you ? "owner-message you" : "owner-message";
       const textOwner =
         message.nickname === this.you ? "You" : message.nickname;
+      const messageStr = decodeURIComponent(message.message);
       const html = `
         <li class="${classOwnerLi}">
           <p class="${classOwnerP}">${textOwner}, <span class="time">${message.time}</span></p><br>
-          <p class="message-text">${message.message}</p>
+          <p class="message-text">${messageStr}</p>
         </li>
       `;
       ownersHtml.push(html);

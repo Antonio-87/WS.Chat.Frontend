@@ -76,9 +76,8 @@ export default class Controller {
     e.preventDefault();
     const target = e.target;
     if (target == this.#innFormWidget.button) {
-      const nickname = this.#innFormWidget
-        .validNickname(this.#innFormWidget.input.value)
-        .trim();
+      const value = this.#innFormWidget.input.value.trim();
+      const nickname = this.#innFormWidget.validNickname(value);
       if (nickname && this.#nicknames.includes(nickname) === true)
         alert("nickname taken! Choose another!");
       if (nickname && this.#nicknames.includes(nickname) === false) {
@@ -109,7 +108,12 @@ export default class Controller {
       } else {
         e.preventDefault();
         const value = target.value;
-        this.#ws.send(JSON.stringify({ nickname: this.#you, message: value }));
+        this.#ws.send(
+          JSON.stringify({
+            nickname: this.#you,
+            message: encodeURIComponent(value),
+          })
+        );
       }
       target.value = "";
     }
