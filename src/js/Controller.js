@@ -14,7 +14,7 @@ export default class Controller {
     this.#nicknames;
     this.#innFormWidget = new InnFormWidget(this.#element);
     this.#innFormWidget.bindToDom();
-    this.#ws = new WebSocket("ws://wz-chat-server.onrender.com/ws");
+    this.#ws = new WebSocket("wss://wz-chat-server.onrender.com/ws");
     this.#innFormWidget.ws = this.#ws;
     this.#innChat = new InnChat(this.#element);
     this.#innChat.bindToDom();
